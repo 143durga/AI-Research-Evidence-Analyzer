@@ -1,0 +1,5 @@
+Metadata-Version: 2.4
+Name: ai-research-evidence-analyzer
+Version: 0.1.0
+Summary: A research prototype for evidence-grounded paper analysis.
+Requires-Python: >=3.11

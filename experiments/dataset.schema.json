@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Prompt variation study dataset record",
+  "description": "One question and its fixed evidence context. Store one JSON object per line in a JSONL file.",
+  "type": "object",
+  "required": ["question_id", "paper_id", "question", "answerability", "evidence"],
+  "properties": {
+    "question_id": {"type": "string", "minLength": 1},
+    "paper_id": {"type": "string", "minLength": 1},
+    "question": {"type": "string", "minLength": 1},
+    "answerability": {
+      "type": "string",
+      "enum": ["answerable", "unanswerable", "ambiguous"],
+      "description": "Human label indicating whether the fixed evidence context supports an answer."
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["evidence_id", "page", "text"],
+        "properties": {
+          "evidence_id": {"type": "string", "minLength": 1},
+          "page": {"type": "integer", "minimum": 1},
+          "text": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
