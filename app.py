@@ -27,11 +27,18 @@ st.caption("Explore one research paper at a time, with answers tied to retrieved
 
 with st.sidebar:
     st.subheader("Answer model")
-    model = os.getenv("LLM_MODEL", "gpt-4o-mini")
-    base_url = os.getenv("LLM_BASE_URL", "https://api.openai.com/v1")
+    model = os.getenv("LLM_MODEL", "Qwen2.5-1.5B-Instruct-Q4_K_M")
+    backend = os.getenv("LLM_BACKEND", "llama_cpp")
     st.write(f"Model: `{model}`")
-    st.write("Embeddings: local Chroma ONNX model")
+    st.write(f"Backend: `{backend}`")
+    st.write("Embeddings and storage: local Chroma ONNX")
     st.caption("PDF text and vectors are stored locally in data/chroma.")
+
+if backend != "llama_cpp":
+    st.error(
+        "Only local llama.cpp inference is supported. Set LLM_BACKEND=llama_cpp."
+    )
+    st.stop()
 
 uploaded_pdf = st.file_uploader("Upload a research-paper PDF", type=["pdf"])
 if uploaded_pdf is None:
@@ -78,9 +85,13 @@ with st.form("research_question"):
     submitted = st.form_submit_button("Find evidence and answer")
 
 if submitted:
-    key = os.getenv("LLM_API_KEY") or os.getenv("OPENAI_API_KEY")
-    generator = AnswerGenerator(model=model, base_url=base_url, api_key=key)
     try:
+        generator = AnswerGenerator(
+            model=model,
+            base_url="",
+            api_key=None,
+            backend="llama_cpp",
+        )
         with st.spinner("Searching this paper and preparing an evidence-grounded answer..."):
             result = analyzer.answer_question(
                 document_id=summary.document_id,
@@ -92,15 +103,21 @@ if submitted:
         st.subheader("Answer")
         st.write(result.answer)
         st.caption(
-            f"Retrieved {result.retrieved_count} passages; "
-            f"{len(result.evidence)} met the distance threshold."
+            f"Retrieved {result.retrieved_count} candidates; "
+            f"{result.eligible_count} passed the distance threshold; "
+            f"showing {len(result.evidence)} passages."
         )
         if result.evidence:
             st.subheader("Supporting evidence")
             for index, item in enumerate(result.evidence, start=1):
+                distance_label = (
+                    "direct definition match"
+                    if item.distance is None
+                    else f"cosine distance {item.distance:.3f}"
+                )
                 with st.expander(
                     f"[E{index}] {item.filename}, page {item.page_number} "
-                    f"(cosine distance {item.distance:.3f})"
+                    f"({distance_label})"
                 ):
                     st.write(item.text)
     except Exception as exc:

@@ -5,6 +5,15 @@ __pycache__/
 .pytest_cache/
 .streamlit/secrets.toml
 data/chroma/
+models/
 papers/*.pdf
 results/*
 !results/.gitkeep
+!results/experiment_1_local_pilot_report.md
+!results/experiment_1_local_smoke.json
+!results/exp1-local-qwen25-1.5b-q4-20260927/
+!results/exp1-local-qwen25-1.5b-q4-20260927/**
+!results/experiment_2_results_report.md
+!results/final_research_report.md
+!results/exp2-evidence-injection-qwen25-1.5b-q4/
+!results/exp2-evidence-injection-qwen25-1.5b-q4/**

@@ -23,6 +23,12 @@ def test_extract_pdf_pages_preserves_page_numbers() -> None:
     ]
 
 
+def test_extract_pdf_pages_does_not_renumber_after_an_empty_page() -> None:
+    pages = extract_pdf_pages(make_pdf("", "Second page"))
+
+    assert [(page.page_number, page.text) for page in pages] == [(2, "Second page")]
+
+
 def test_extract_pdf_pages_rejects_empty_or_scanned_pdf() -> None:
     with pytest.raises(ValueError, match="empty"):
         extract_pdf_pages(b"")

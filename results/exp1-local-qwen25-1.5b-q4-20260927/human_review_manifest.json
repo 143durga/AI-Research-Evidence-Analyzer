@@ -1,0 +1,7 @@
+{
+  "workflow_version": "1.0.0",
+  "experiment_id": "exp1-local-qwen25-1.5b-q4-20260927",
+  "raw_outputs_sha256": "a729efa318361f8c18c8b8dbba2caa1e46d5ee77c8be90cbf72f5a32fc30d4bb",
+  "created_at_utc": "2026-09-27T15:55:59.608627+00:00",
+  "updated_at_utc": "2026-10-03T16:29:33.076135+00:00"
+}
