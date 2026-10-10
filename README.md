@@ -4,6 +4,8 @@ A local-only research prototype for asking questions about one research-paper PD
 
 This is an engineering prototype, not a validated scientific instrument. Two completed, local-model experiments are reported as descriptive pilots in the [combined research report](results/final_research_report.md); they do not establish broad performance or security claims.
 
+The portfolio-oriented [research package](research_package/RESEARCH_REPORT.md) summarizes the verified methods and pilot results. See its [architecture](research_package/ARCHITECTURE.md), [evaluation case export](research_package/EVALUATION_RESULTS.csv), [limitations](research_package/LIMITATIONS.md), and [professor outreach notes](research_package/PROFESSOR_OUTREACH_NOTES.md).
+
 ## 1. Project Objective
 
 Build a small, understandable retrieval-augmented generation (RAG) application that helps a reader inspect evidence in a research paper. Answers should be traceable to retrieved passages, and the app should abstain when no passage is close enough to the question.
